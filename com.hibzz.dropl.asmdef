@@ -1,9 +1,10 @@
 {
-    "name": "com.hibzz.drop",
-    "rootNamespace": "Hibzz.DROP",
-    "references": [],
-    "includePlatforms": [
+    "name": "com.hibzz.dropl",
+    "rootNamespace": "Hibzz.Dropl",
+    "references": [
+        "GUID:b2fef9eae29790340a713d8578864b00"
     ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
