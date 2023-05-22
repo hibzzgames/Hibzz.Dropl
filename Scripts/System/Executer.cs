@@ -1,5 +1,4 @@
 using Hibzz.Singletons;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -87,9 +86,45 @@ namespace Hibzz.Dropl
 		/// </summary>
 		public void ResetTimescale() => SetTimescale(1);
 
+		/// <summary>
+		/// Add the given operation to the executer
+		/// </summary>
+		/// <param name="operation">The operation to add</param>
+		public void Add(Operation operation)
+		{
+			Operations.Add(operation);
+			operation.BelongsTo = this;
+		}
+
+		/// <summary>
+		/// Remove the given operation from the list of operations in the executer
+		/// </summary>
+		/// <param name="operation">The operation to remove</param>
+		public void Remove(Operation operation)
+		{
+			Operations.Remove(operation);
+			operation.BelongsTo = null;
+		}
+
 		#endregion
 
 		#region Unity Events
+
+		private void Update()
+		{
+			// cache the delta time value
+			float dt = Time.deltaTime * TimeScale;
+
+			// loop through all operations and perform a tick on it
+			// if it can tick, it'll tick... else it'll not proceed
+			foreach(var operation in Operations)
+			{
+				operation.Tick(dt);
+			}
+
+			// delete all expired actions
+			Operations.RemoveAll((operation) => operation.HasExpired);
+		}
 
 		#endregion
 	}
