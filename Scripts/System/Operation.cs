@@ -48,11 +48,6 @@ namespace Hibzz.Dropl
         public Object Target { get; protected set; } = null;
 
         /// <summary>
-        /// Is the operation marked to expire forcefully
-        /// </summary>
-        protected bool forceExpire { get; private set; } = false;
-
-        /// <summary>
         /// The current easing method applied for this operation
         /// </summary>
         public Easing.Type EasingType { get; protected set; } = Easing.Type.LINEAR;
@@ -61,6 +56,11 @@ namespace Hibzz.Dropl
         /// The executer that this operation is inside of
         /// </summary>
         public Executer BelongsTo { get; internal set; } = null;
+
+        /// <summary>
+        /// Is this operation paused?
+        /// </summary>
+        public bool IsPaused { get; private set; } = false;
 
         /// <summary>
         /// The default construction of an operation
@@ -77,26 +77,16 @@ namespace Hibzz.Dropl
         public Operation(Object target, Easing.Type easingType = Easing.Type.LINEAR, bool useDefaultExpirationRules = true)
         {
             // when the default expiration rules are applied, the operation
-            // expires when the entire time has elapsed or if force expire
-            // request was set
+            // expires when the entire time has elapsed
             if(useDefaultExpirationRules)
             {
                 HasExpired += () => TimeElapsed >= ExpirationTime;
-                HasExpired += () => forceExpire;
             }
 
             // set the target and easing type
             Target = target;
             EasingType = easingType;
         }
-
-		/// <summary>
-		/// Forcefully expire an operation
-		/// </summary>
-		public void ForceExpire()
-		{
-			forceExpire = true;
-		}
 
         /// <summary>
         /// Perform a tick operation
@@ -107,7 +97,7 @@ namespace Hibzz.Dropl
             if(dt == 0) { return; }
 
             // if it can't tick, don't proceed... all conditionals must return trye for CanTick to be true
-            if(!CanTick) { return; }
+            if(!CanTick || IsPaused) { return; }
 
             // if it's the first tick, call start
             if(TimeElapsed <= 0) { OnOperationStart(); }
@@ -130,10 +120,35 @@ namespace Hibzz.Dropl
         protected virtual void OnOperationComplete() { }
 
         /// <summary>
-        /// Add this operation to the default executer
+        /// If in a paused state, resume the operation
         /// </summary>
-        /// <returns>The executer to add to</returns>
-        public bool AddToDefaultExecuter()
+        public void Resume()
+        {
+            IsPaused = false;
+        }
+
+        /// <summary>
+        /// Pause the operation from ticking further
+        /// </summary>
+        public void Pause()
+        {
+            IsPaused = true;
+        }
+
+		/// <summary>
+		/// Stop the execution of an operation immediately
+		/// </summary>
+		public void Stop()
+		{
+			// we forcefully expire this operation by making the HasExpired conditional always retur true
+			HasExpired += () => true;
+		}
+
+		/// <summary>
+		/// Add this operation to the default executer
+		/// </summary>
+		/// <returns>The executer to add to</returns>
+		public bool AddToDefaultExecuter()
         {
             // can't add duplicates operations to the default executer
             if(Executer.DefaultExecutor.Operations.Contains(this)) { return false; }
