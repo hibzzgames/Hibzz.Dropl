@@ -106,6 +106,16 @@ namespace Hibzz.Dropl
 			operation.BelongsTo = null;
 		}
 
+		/// <summary>
+		/// Remove operations from this executer based on a defined filter
+		/// </summary>
+		/// <param name="filter"></param>
+		public void Remove(Filter filter)
+		{
+			// remove all the operations that passes through the filter
+			Operations.RemoveAll((operation) => filter.DoesMatch(operation));
+		}
+
 		#endregion
 
 		#region Unity Events
