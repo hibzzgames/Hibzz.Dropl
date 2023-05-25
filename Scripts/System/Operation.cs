@@ -12,10 +12,20 @@ namespace Hibzz.Dropl
         /// </summary>
         public Conditional CanTick { get; set; } = new Conditional(RuleType.CHECK_ALL_ARE_TRUE);
 
+		/// <summary>
+		/// Has the operation expired
+		/// </summary>
+		public Conditional HasExpired { get; set; } = new Conditional(RuleType.CHECK_ANY_IS_TRUE);
+
         /// <summary>
-        /// How long has the operation been ticking?
+        /// Any delay that you want to add before starting the operation
         /// </summary>
-        public float TimeElapsed { get; protected set; } = 0;
+        public float Delay { get; set; } = 0;
+
+		/// <summary>
+		/// How long has the operation been ticking?
+		/// </summary>
+		public float TimeElapsed { get; protected set; } = 0;
 
         /// <summary>
         /// How long should the operation tick?
@@ -36,11 +46,6 @@ namespace Hibzz.Dropl
         /// The progress made but eased by the specified easing method
         /// </summary>
         public float EasedProgress => Easing.Apply(Progress, EasingType);
-
-        /// <summary>
-        /// Has the operation expired
-        /// </summary>
-        public Conditional HasExpired { get; set; } = new Conditional(RuleType.CHECK_ANY_IS_TRUE);
 
         /// <summary>
         /// The target on which the operation is being performed on
@@ -96,11 +101,15 @@ namespace Hibzz.Dropl
             // if the delta time is 0, there's nothing to proceed either
             if(dt == 0) { return; }
 
-            // if it can't tick, don't proceed... all conditionals must return trye for CanTick to be true
+            // if it can't tick, don't proceed... all conditionals must return true for CanTick to be true
             if(!CanTick || IsPaused) { return; }
 
-            // if it's the first tick, call start
-            if(TimeElapsed <= 0) { OnOperationStart(); }
+            // tick down the delay timer and if there's some more delay left in the operation, do not proceed
+            Delay -= dt;
+            if(Delay > 0) { return; }
+
+			// if it's the first tick, call start
+			if (TimeElapsed <= 0) { OnOperationStart(); }
 
             // increment the time and perform the tick operation
             TimeElapsed += dt;
