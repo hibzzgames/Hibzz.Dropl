@@ -230,74 +230,45 @@ namespace Hibzz.Dropl
 			return 0.5f * (Mathf.Sqrt(1f - t * t) + 1f);
 		}
 
-		public static float Apply(float t, Type method)
+		public static float Apply(float t, Interpolations method)
         {
             switch (method)
             {
-                case Type.LINEAR:         return Linear(t);
-                case Type.IN_SINE:        return InSine(t);
-                case Type.OUT_SINE:       return OutSine(t);
-                case Type.IN_OUT_SINE:    return InOutSine(t);
-                case Type.IN_QUAD:        return InQuad(t);
-                case Type.OUT_QUAD:       return OutQuad(t);
-                case Type.IN_OUT_QUAD:    return InOutQuad(t);
-                case Type.IN_CUBIC:       return InCubic(t);
-                case Type.OUT_CUBIC:      return OutCubic(t);
-                case Type.IN_OUT_CUBIC:   return InOutCubic(t);
-				case Type.IN_BOUNCE:      return InBounce(t);
-				case Type.OUT_BOUNCE:     return OutBounce(t);
-				case Type.IN_OUT_BOUNCE:  return InOutBounce(t);
-				case Type.IN_ELASTIC:     return InElastic(t);
-				case Type.OUT_ELASTIC:    return OutElastic(t);
-				case Type.IN_OUT_ELASTIC: return InOutElastic(t);
-				case Type.IN_BACK:        return InBack(t);
-				case Type.OUT_BACK:       return OutBack(t);
-				case Type.IN_OUT_BACK:    return InOutBack(t);
-				case Type.IN_CIRC:        return InCirc(t);
-				case Type.OUT_CIRC:       return OutCirc(t);
-				case Type.IN_OUT_CIRC:    return InOutCirc(t);
+                case Interpolations.LINEAR:         return Linear(t);
+                case Interpolations.IN_SINE:        return InSine(t);
+                case Interpolations.OUT_SINE:       return OutSine(t);
+                case Interpolations.IN_OUT_SINE:    return InOutSine(t);
+                case Interpolations.IN_QUAD:        return InQuad(t);
+                case Interpolations.OUT_QUAD:       return OutQuad(t);
+                case Interpolations.IN_OUT_QUAD:    return InOutQuad(t);
+                case Interpolations.IN_CUBIC:       return InCubic(t);
+                case Interpolations.OUT_CUBIC:      return OutCubic(t);
+                case Interpolations.IN_OUT_CUBIC:   return InOutCubic(t);
+				case Interpolations.IN_BOUNCE:      return InBounce(t);
+				case Interpolations.OUT_BOUNCE:     return OutBounce(t);
+				case Interpolations.IN_OUT_BOUNCE:  return InOutBounce(t);
+				case Interpolations.IN_ELASTIC:     return InElastic(t);
+				case Interpolations.OUT_ELASTIC:    return OutElastic(t);
+				case Interpolations.IN_OUT_ELASTIC: return InOutElastic(t);
+				case Interpolations.IN_BACK:        return InBack(t);
+				case Interpolations.OUT_BACK:       return OutBack(t);
+				case Interpolations.IN_OUT_BACK:    return InOutBack(t);
+				case Interpolations.IN_CIRC:        return InCirc(t);
+				case Interpolations.OUT_CIRC:       return OutCirc(t);
+				case Interpolations.IN_OUT_CIRC:    return InOutCirc(t);
                 default:                  return 0;
             }
         }
 
-        public static float Apply(float t, Type method, int power)
+        public static float Apply(float t, Interpolations method, int power)
         {
             switch (method)
             {
-				case Type.IN_POWER:     return InPower(t, power);
-				case Type.OUT_POWER:    return OutPower(t, power);
-				case Type.IN_OUT_POWER: return InOutPower(t, power);
+				case Interpolations.IN_POWER:     return InPower(t, power);
+				case Interpolations.OUT_POWER:    return OutPower(t, power);
+				case Interpolations.IN_OUT_POWER: return InOutPower(t, power);
 				default:                return Apply(t, method);
             }
-        }
-
-        public enum Type
-        {
-            LINEAR,
-            IN_SINE,
-            OUT_SINE,
-            IN_OUT_SINE,
-            IN_QUAD,
-            OUT_QUAD,
-            IN_OUT_QUAD,
-            IN_CUBIC,
-            OUT_CUBIC,
-            IN_OUT_CUBIC,
-            IN_POWER,
-            OUT_POWER,
-            IN_OUT_POWER,
-			IN_BOUNCE,
-			OUT_BOUNCE,
-			IN_OUT_BOUNCE,
-			IN_ELASTIC,
-			OUT_ELASTIC,
-			IN_OUT_ELASTIC,
-			IN_BACK,
-			OUT_BACK,
-			IN_OUT_BACK,
-			IN_CIRC,
-			OUT_CIRC,
-			IN_OUT_CIRC
         }
     }
 }

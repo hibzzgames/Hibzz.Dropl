@@ -1,9 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-using Object = System.Object;
 
 namespace Hibzz.Dropl
 {
@@ -13,11 +8,33 @@ namespace Hibzz.Dropl
     /// </summary>
     public class Filter
     {
-        public Object Target                    = null;
-        public Type   OperationType             = null; 
+        /// <summary>
+        /// The object that an operation is working on
+        /// </summary>
+        public object Target = null;
+
+        /// <summary>
+        /// The type of operation that needs to be filtered
+        /// </summary>
+        /// <remarks>
+        /// Use <c>typeof(OperationSubclass)</c> to set this value
+        /// </remarks>
+        public Type OperationType = null; 
+
+        /// <summary>
+        /// A custom rule can be added to check if an operation passes the test
+        /// </summary>
         public Func<Operation, bool> CustomRule = null;
 
-        public bool DoesMatch(Operation operatation)
+		/// <summary>
+		/// Check if the given operation matches the filter
+		/// </summary>
+		/// <param name="operatation">The operation to check</param>
+		/// <returns>
+		/// <para> True: all the rules in the filter matches the operation </para>
+		/// <para> False: any of the rule in the filter fails </para>
+		/// </returns>
+		public bool DoesMatch(Operation operatation)
         {
             // if rule is available, check the rule and see if the operation
             // can pass the rule. But if no such rule is defined, then we

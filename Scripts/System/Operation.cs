@@ -55,7 +55,7 @@ namespace Hibzz.Dropl
         /// <summary>
         /// The current easing method applied for this operation
         /// </summary>
-        public Easing.Type EasingType { get; protected set; } = Easing.Type.LINEAR;
+        public Interpolations EasingType { get; protected set; } = Interpolations.LINEAR;
 
         /// <summary>
         /// The executer that this operation is inside of
@@ -79,7 +79,7 @@ namespace Hibzz.Dropl
         /// When set to false, there are no expiration rules are applied at 
         /// all and the user must add the rules manually
         /// </param>
-        public Operation(Object target, Easing.Type easingType = Easing.Type.LINEAR, bool useDefaultExpirationRules = true)
+        public Operation(Object target, Interpolations easingType = Interpolations.LINEAR, bool useDefaultExpirationRules = true)
         {
             // when the default expiration rules are applied, the operation
             // expires when the entire time has elapsed
