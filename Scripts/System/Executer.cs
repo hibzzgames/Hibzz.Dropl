@@ -143,13 +143,13 @@ namespace Hibzz.Dropl
 			Operations.RemoveAll((operation) =>
 			{
 				var sequence_operation = operation as Sequence;
-				if(sequence_operation != null)
+				if (sequence_operation != null)
 				{
 					sequence_operation.RemoveAll(filter);
 				}
 
 				return filter.DoesMatch(operation);
-			})
+			});
 		}
 
 		#endregion

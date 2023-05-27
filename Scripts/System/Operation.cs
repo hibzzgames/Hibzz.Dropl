@@ -45,7 +45,7 @@ namespace Hibzz.Dropl
         /// <summary>
         /// The progress made but eased by the specified easing method
         /// </summary>
-        public float EasedProgress => Easing.Apply(Progress, EasingType);
+        public float EasedProgress => Easing.Evaluate(Progress);
 
         /// <summary>
         /// The target on which the operation is being performed on
@@ -55,7 +55,7 @@ namespace Hibzz.Dropl
         /// <summary>
         /// The current easing method applied for this operation
         /// </summary>
-        public Interpolations EasingType { get; protected set; } = Interpolations.LINEAR;
+        public Easing Easing { get; protected set; } = Interpolations.LINEAR;
 
         /// <summary>
         /// The executer that this operation is inside of
