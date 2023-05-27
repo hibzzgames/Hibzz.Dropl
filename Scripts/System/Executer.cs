@@ -109,7 +109,7 @@ namespace Hibzz.Dropl
 		/// <summary>
 		/// Remove operations from this executer based on a defined filter
 		/// </summary>
-		/// <param name="filter"></param>
+		/// <param name="filter">The filter to use to determine which operation(s) to remove</param>
 		public void Remove(Filter filter)
 		{
 			// remove all the operations that passes through the filter

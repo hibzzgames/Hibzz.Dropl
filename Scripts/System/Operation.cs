@@ -79,7 +79,7 @@ namespace Hibzz.Dropl
         /// When set to false, there are no expiration rules are applied at 
         /// all and the user must add the rules manually
         /// </param>
-        public Operation(Object target, Interpolations easingType = Interpolations.LINEAR, bool useDefaultExpirationRules = true)
+        public Operation(Object target, bool useDefaultExpirationRules = true)
         {
             // when the default expiration rules are applied, the operation
             // expires when the entire time has elapsed
@@ -90,7 +90,6 @@ namespace Hibzz.Dropl
 
             // set the target and easing type
             Target = target;
-            EasingType = easingType;
         }
 
         /// <summary>
