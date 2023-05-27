@@ -116,6 +116,42 @@ namespace Hibzz.Dropl
 			Operations.RemoveAll((operation) => filter.DoesMatch(operation));
 		}
 
+		/// <summary>
+		/// Remove all of the operations that match, including the ones inside a sequence
+		/// </summary>
+		/// <param name="operation">The operation to remove</param>
+		public void RemoveAll(Operation operation)
+		{
+			Operations.RemoveAll((op) =>
+			{
+				var sequence_operation = op as Sequence;
+				if(sequence_operation != null)
+				{
+					sequence_operation.RemoveAll(operation);
+				}
+
+				return operation == op;
+			});
+		}
+
+		/// <summary>
+		/// Removes all of the operations that match the defined filter, including operation nested inside sequences
+		/// </summary>
+		/// <param name="filter">The filter to use to determine which operation(s) to remove</param>
+		public void RemoveAll(Filter filter)
+		{
+			Operations.RemoveAll((operation) =>
+			{
+				var sequence_operation = operation as Sequence;
+				if(sequence_operation != null)
+				{
+					sequence_operation.RemoveAll(filter);
+				}
+
+				return filter.DoesMatch(operation);
+			})
+		}
+
 		#endregion
 
 		#region Unity Events
