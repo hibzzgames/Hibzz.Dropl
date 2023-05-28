@@ -50,12 +50,27 @@ namespace Hibzz.Dropl
 			return Helpers.Evaluate(t, easingMethod);
 		}
 
+		/// <summary>
+		/// Evaluate the easing curve at the given time and remap it to the expected range
+		/// </summary>
+		/// <param name="t">The time to cross reference</param>
+		/// <param name="min">The min value of the range to remap to</param>
+		/// <param name="max">The max value of the range to remap to</param>
+		/// <returns></returns>
+		public float Evaluate(float t, float min, float max)
+		{
+			return Mathf.Lerp(min, max, Evaluate(t));
+		}
+
 		// implicit conversion from Interpolations to easing
 		public static implicit operator Easing(Interpolations easingMethod) => new Easing(easingMethod);
 
 		// implicit conversion from animation curve to easing
 		public static implicit operator Easing(AnimationCurve easingCurve) => new Easing(easingCurve);
 
+		/// <summary>
+		/// A variety of helper functions to assist with easing
+		/// </summary>
 		public static class Helpers
 		{
 			public static float Linear(float t)
