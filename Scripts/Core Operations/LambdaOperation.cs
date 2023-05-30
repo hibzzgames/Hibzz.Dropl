@@ -1,4 +1,4 @@
-namespace Hibzz.Dropl.DefaultOperations
+namespace Hibzz.Dropl
 {
 	public class LambdaOperation : Operation
 	{
