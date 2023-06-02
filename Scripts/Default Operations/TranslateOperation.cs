@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace Hibzz.Dropl
+namespace Hibzz.Dropl.DefaultOperations
 {
     public class TranslateOperation : PropertyOperation<Vector3>
     {

@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Hibzz.Dropl
+namespace Hibzz.Dropl.DefaultOperations
 {
     public class UITintOperation : PropertyOperation<Color>
     {

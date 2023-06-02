@@ -1,6 +1,6 @@
 {
   "name": "com.hibzz.dropl",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "displayName": "hibzz.dropl",
   "description": "A library used to exeute instructions over a period of time",
   "author": {
