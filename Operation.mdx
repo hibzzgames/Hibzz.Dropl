@@ -1,0 +1,124 @@
+---
+title: Operation
+description: This page contains detailed information about the Operation class in Dropl.
+---
+
+The abstract `Operation` class is used to represent a single task that can be executed by an `Executer` over a period of time. It is the base class for all operations in Dropl.
+
+An `Operation` object will only begin ticking when it is added to an `Executer`. Learn more about `Executer`s on the [Executer](/src/dropl/executer/) page.
+
+By default, the operations in Dropl are packed with features such as easing, delays, custom tick and expiration rules, and more. The operations can be paused and resumed at any time, and they can be added to any executer. Learn more about the advanced features of a Dropl Operation below.
+
+# API Reference
+## Properties
+### `Executer BelongsTo`
+This property is used to describe the executer that the operation was added to. If the operation has not been added to an executer yet, this property will be `null`.
+
+
+### `Conditional CanTick`
+The `CanTick` property is used to describe the conditions under which an executer can make an operation perform a tick. When all conditions are met, the operation will perform a tick. 
+
+For more details on how `Conditional` works, see the [Conditional](/src/dropl/conditional/) page.
+
+```csharp
+// getter implicitly converts to a bool
+bool canOperationTick = operation.CanTick;
+
+// add a condition
+// - can tick when the game is not paused
+operation.CanTick += () => !Game.IsPaused; 
+```
+
+
+### `float Delay`
+This property is used to define any delay to apply to the operation. This delay is applied before the operation starts ticking.
+
+
+### `float EasedProgress`
+This property is used to describe the progress of the operation on a general scale of 0 to 1. This property is scaled based on the defined easing function during the creation of the object. The default easing function is `Linear`.
+
+::: note
+Although the `EasedProgress` property is generally in a range of 0 to 1, it can go above 1 or below 0 based on the easing function used. If it must be clamped, use `Mathf.Clamp01(operation.EasedProgress)` to ensure it is in a range of 0 to 1.
+:::
+
+
+### `Easing Easing`
+This property is used to define the easing function to use when scaling the `Progress` property. The default easing function is `Linear`, however, it can be changed to any of the many easing functions provided by Dropl. Optionally, a custom easing function can be defined using Unity's `AnimationCurve` class.
+
+To learn more about Dropl's easing functions, see the [Easing](/src/dropl/easing/) page.
+
+
+### `float ExpirationTime`
+This property is used to describe the total amount of time that the operation must tick for before it expires. This property is read-only and is usually set in the constructor of the operation.
+
+
+### `Conditional HasExpired`
+The `HasExpired` property is used to describe whether or not an operation has expired. An expired operation will be removed and disposed of by the executer. This conditional is configured in such a way that when any of the conditions are met, the operation will be considered expired.
+
+To learn more about how `Conditional` works, see the [Conditional](/src/dropl/conditional/) page.
+
+```csharp
+// set the operation to expire when the health goes below 0
+operation.HasExpired += () => Player.Health < 0;
+```
+
+
+### `bool IsPaused`
+This property is used to describe whether or not the operation is paused. When an operation is paused, the operation is suspended and will not tick.
+
+
+### `float Progress`
+This property is used to describe the progress of the operation on a scale of 0 to 1. This property is raw and does not scale based on defined easing functions.
+
+
+### `Object Target`
+This property is used to describe the target of the operation. It is extremely context-driven and is usually set in the constructor of the operation.
+
+```csharp
+// get the target as a transform
+Transform transform = operation.Target as Transform;
+```
+
+
+### `float TimeElapsed`
+This property is used to describe the amount of time that has elapsed since the operation started ticking.
+
+
+### `float TimeLeft`
+This property is used to describe the amount of time that is left before the operation expires.
+
+
+## Functions
+### `public bool AddToDefaultExecuter()`
+This helper function is used to add the operation to the default executer. The function will return whether or not the operation was successfully added to the executer. An operation can only be added to an executer once. If the operation has already been added to an executer, this function will return `false`.
+
+### `protected virtual void OnOperationComplete()`
+This function is called when the operation has completed ticking. It is called just after the operation has been scheduled to be removed from the executer. This function is virtual and can be overridden by the developer to add custom functionality to the operation or to perform cleanup.
+
+
+### `protected virtual void OnOperationStart()`
+This function is called when the operation has started ticking. If a delay is applied to the operation, this function will be called after the delay has elapsed. This function is virtual and can be overridden by the developer to add custom functionality to the operation or to perform the setup.
+
+
+### `protected virtual void OnOperationTick()`
+This function is called when the operation ticks. Usually, the majority of a Dropl operation's functionality will be contained within this function. This function is virtual and can be overridden by the developer to add custom functionality to the operation.
+
+
+### `public Operation(Object Target, bool useDefaultExpirationRules = true)`
+This is the base constructor for an `Operation` class. It is used to create a new operation with a specified target and optionally modify the default expiration rules.
+
+By default, the default expiration rules are used. According to these rules, an operation will expire when the time specified by the `ExpirationTime` property has elapsed.
+
+If the developer wishes to modify the expiration rules, they can set the `useDefaultExpirationRules` parameter to `false` and then add their own expiration rules using the `HasExpired` property. If no custom expiration rules are added, the operation will never expire.
+
+
+### `public void Pause()`
+This function is used to pause an operation. A paused operation will not tick. If the operation was already paused, this function will do nothing.
+
+
+### `public void Resume()`
+This function is used to resume an operation if it was in a paused state. If the operation was not paused, this function will do nothing.
+
+
+### `public void Stop()`
+This function is used to immediately stop an operation from ticking and remove it from the executer. Although interrupted, the `OnOperationComplete` function will still be called as if the operation had been completed normally.
