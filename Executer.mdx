@@ -1,0 +1,56 @@
+---
+title: Executer
+description: This page contains information about the Executer class in Dropl
+---
+
+The `Executer` class is used to manage and execute user-defined `Operation`s. All `Operation`'s created must be added to an `Executer` for them to be executed. By default, Dropl provides a singleton instance of the `Executer` class that can be accessed through the `DefaultExecuter` property, but developers can create instances of the `Executer` class if they want to have finer controls or create a grouping system.
+
+# API Reference
+## Static Properties
+### `Executer DefaultExecuter`
+The `DefaultExecuter` property gives developers access to a built-in, singleton instance of the `Executer` class. This was implemented using the [Hibzz.Singletons](https://github.com/hibzzgames/Hibzz.Singletons) package and the same can be accessed using `Executer.Instance`. However, the `DefaultExecuter` property is more readable and is recommended to be used instead.
+
+## Properties
+### `List<Operation> Operations`
+This read-only property returns a list of all added `Operation`s that are currently being managed by the `Executer` instance. These operations are either actively ticking or waiting to be ticked (due to a defined delay). Expired operations are automatically removed from this list.
+
+This list is great for looping through all active operations and performing necessary actions on them. However, if a developer wants to modify this list, they must use the `Add` and `Remove` methods instead of directly working on the list.
+
+### `float TimeScale`
+This read-only property returns the current time scale of the `Executer` instance. This value is used to scale how fast or slow the `Executer` instance ticks. For example, if the time scale is set to 2, the `Executer` instance will tick twice as fast as normal. If the time scale is set to 0.5, the `Executer` instance will tick half as fast as normal.
+
+
+## Static Methods
+### `Executer RequestNewExecuter()`
+This helper method is used to create a new instance of the `Executer` class if the developer wants to have finer controls on how operations are managed. It is highly recommended to use this method instead of directly creating a new instance of the `Executer` class using the `new` keyword as this method does some additional setup that is required for the `Executer` instance to work properly.
+
+## Methods
+### `void Add(Operation operation)`
+This method is used to add an `Operation` to the `Executer` instance. Once added, the `Operation` will be managed by the `Executer` instance and will begin ticking. Currently, there is no protection against adding the same `Operation` instance multiple times. Hopefully, this will be added in the future.
+
+### `void Remove(Operation operation)`
+This method is used to remove the given `Operation` from the `Executer` instance. Once removed, as long as there are no other references to the `Operation`, it will be removed from memory by the garbage collector. This function provides a surface-level way to remove `Operation`s from the `Executer` instance and doesn't look into nested `Sequence` operations. However, if you want to remove all instances of an `Operation` from the `Executer` instance, use the `RemoveAll(Operation operation)` method instead.
+
+If the `Operation` is currently ticking, it will be stopped and will not tick again. However, the `Operation`'s `OnOperationComplete` method will not be called. If it's something that you want to see implemented, please share your feedback on the [Discord server](https://discord.gg/YXdJ8cZngB).
+
+### `void Remove(Filter filter)`
+This method is used to remove all `Operation`s that match the given `Filter` from the `Executer` instance. Please refer to the [Filter](/src/dropl/filter) page for more information on how to define and use filters with the Dropl.
+
+This function provides a surface-level way to remove `Operation`s from the `Executer` instance and doesn't look into nested `Sequence` operations. However, if you want to remove all instances of an `Operation` from the `Executer` instance, use the `RemoveAll(Filter filter)` method instead.
+
+Just like the `Remove(Operation operation)` method, the `OnOperationComplete` method of the removed `Operation`s will not be called. 
+
+### `void RemoveAll(Operation operation)`
+This method is a variant of the `Remove(Operation operation)` method that removes all instances of the given `Operation`, including the ones that are nested inside `Sequence` operations.
+
+### `void RemoveAll(Filter filter)`
+This method is a variant of the `Remove(Filter filter)` method that removes all instances of `Operation`s that match the given `Filter`, including the ones that are nested inside `Sequence` operations.
+
+### `void ResetTimeScale()`
+This method is used to reset the time scale of the `Executer` instance to 1. This means that the `Executer` instance will tick at the normal rate.
+
+### `void SetTimescale(float timeScale)`
+This method is used to set the time scale of the `Executer` instance. This value is used to scale how fast or slow the `Executer` instance ticks. For example, if the time scale is set to 2, the `Executer` instance will tick twice as fast as normal. If the time scale is set to 0.5, the `Executer` instance will tick half as fast as normal.
+
+
+
