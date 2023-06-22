@@ -1,0 +1,47 @@
+---
+title: Filter
+description: This page contains details on how to use Filters in the Dropl Package
+---
+
+A `Filter` is an object that defines the ruleset for filtering `Operation`s. It is mostly used in Dropl to select a subset of `Operation`s from a larger collection.
+
+### Creating a Filter
+To create a `Filter`, you need a new filter object and a set of rules. The rules can be defined in a number of ways:
+
+```csharp
+// Create a new filter
+Filter filter = new Filter();
+
+// An operation with the Target as "SomeGameObject" will be selected
+filter.Target = SomeGameObject;
+
+// An operation of the type HealthOperation will be selected
+filter.Type = typeof(HealthOperation);
+
+// An operation must fulfill the custom rule to be selected
+// For example, this rule selects all operations with a health value of 10 or less
+filter.CustomRule = (Operation operation) => {
+    var healthOperation = operation as HealthOperation;
+    if (healthOperation == null) {
+        return false;
+    }
+    return healthOperation.Health <= 10;
+};
+```
+
+An `Operation` must fulfill all of the rules to be selected by the `Filter`. A special case is when the `Filter` has no rules defined, in which case all `Operation`s will be selected.
+
+# API Reference
+## Properties
+### `Object Target`
+This property defines the existence of a rule that selects `Operation`s based on their `Target`. If this property is set, only `Operation`s with the same `Target` will be selected by the `Filter`.
+
+### `Type OperationType`
+This property defines the existence of a match rule that selects `Operation`s based on their type. If this property is set, only `Operation`s of the same type will be selected by the `Filter`.
+
+### `Func<Operation, bool> CustomRule`
+This property defines the existence of a custom user-defined rule that selects `Operation`s based on the result of the rule. An `Operation` is passed into the lambda function, and the function must return a `bool` value. When this function returns `true`, the `Operation` is selected by the `Filter`.
+
+## Methods
+### `bool DoesMatch(Operation operation)`
+This method checks if the given `Operation` matches all the rules defined by the `Filter`. If the `Operation` matches all the rules, this method returns `true`. Otherwise, it returns `false`.
