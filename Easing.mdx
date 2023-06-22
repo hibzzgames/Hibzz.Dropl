@@ -1,0 +1,64 @@
+---
+title: Easing
+description: This page describes the functionality of the Easing class
+---
+
+The `Easing` class is used to define how a value changes over time as it scales from 0 to 1. It is used by the `Operation` class to define how to interpret the `progress` value on a scaled context.
+
+There are two ways to define how an `Easing` definition behaves. The first is to use any of the built-in interpolation functions that are part of the Dropl Package. These are standard easing functions that are used in many animation libraries. The second is to define a custom `Easing` behavior using an `AnimationCurve` object.
+
+```csharp
+// Using a built-in easing function
+Easing easing = new Easing(Interpolations.IN_SINE);
+
+// or using an AnimationCurve
+// assume that a serialized AnimationCurve is assigned to the variable curve
+Easing easing = new Easing(curve);
+
+// then the value can be evaluated using the Evaluate method
+float value = easing.Evaluate(0.5f);
+
+// and can be remapped to a different range
+float remappedValue = easing.Evaluate(0.5f, -10, 10);
+```
+
+It's also important to note that both `Interpolations` and `AnimationCurve` objects can be passed directly to functions that accept an `Easing` object. This is because the `Easing` class has an implicit conversion operator for both of these types.
+
+```csharp
+void SomeFunction(Easing easing) { ... }
+
+// Interpolations
+SomeFunction(Interpolations.IN_SINE);
+
+// AnimationCurve
+SomeFunction(curve);
+```
+
+#### Available Easing Functions
+- LINEAR
+- IN_SINE
+- OUT_SINE
+- IN_OUT_SINE
+- IN_QUAD
+- OUT_QUAD
+- IN_OUT_QUAD
+- IN_CUBIC
+- OUT_CUBIC
+- IN_OUT_CUBIC
+- IN_POWER
+- OUT_POWER
+- IN_OUT_POWER
+- IN_BOUNCE
+- OUT_BOUNCE
+- IN_OUT_BOUNCE
+- IN_ELASTIC
+- OUT_ELASTIC
+- IN_OUT_ELASTIC
+- IN_BACK
+- OUT_BACK
+- IN_OUT_BACK
+- IN_CIRC
+- OUT_CIRC
+- IN_OUT_CIRC
+
+To learn more about these easing functions, check out the [easing functions](https://easings.net/) website. Although for internal use, have a look at the `Helpers` subclass in `Easing` to see how these functions are implemented and can be used outside of the Dropl Package.
