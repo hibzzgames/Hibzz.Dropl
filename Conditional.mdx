@@ -1,0 +1,42 @@
+---
+title: Conditional
+description: This page contains details on the Conditional class
+---
+
+The conditional class is an excellent utility script to check multiple custom conditions and return a value based on the result. It can be configured to check if any or all of the conditions are true or false.
+
+## Usage
+Here's an example of how to use the conditional class to check if all conditions are true:
+
+```csharp
+Conditional isHealthyAndInCombat = new Conditional(Conditional.RuleType.CHECK_ALL_ARE_TRUE);
+
+// add custom conditions
+isHealthyAndInCombat += () => player.Health > 50;
+isHealthyAndInCombat += () => player.IsInCombat;
+
+// perform the check
+if(isHealthyAndInCombat())
+{
+    // add some logic here
+}
+```
+
+In the above example, you can also see that conditionals can be dropped inside of an if statement to perform the check. This is because the implicit conversion to a boolean value is supported out of the box.
+
+The conditional class can also be used to check if any of the conditions are true:
+
+```csharp
+Conditional isHealthyOrInCombat = new Conditional(Conditional.RuleType.CHECK_ANY_IS_TRUE);
+
+// add custom conditions
+isHealthyOrInCombat += () => player.Health > 50;
+isHealthyOrInCombat += () => player.IsInCombat;
+
+// perform the check
+if(isHealthyOrInCombat())
+{
+    // add some logic here
+}
+```
+
