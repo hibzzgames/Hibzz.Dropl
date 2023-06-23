@@ -1,0 +1,55 @@
+---
+title: Lambda Operation
+description: This page contains details on the Lambda operation.
+---
+
+The `LambdaOperation` is one of the core operations part of the Dropl Package. It allows the developers to execute any custom code as an operation without having to create a new class that inherits from the `Operation` class. This is useful for simple operations that are one-off and do not need to be reused.
+
+## Usage
+In essence, there are two types of `LambdaOperations`: a simple execute once type and an execute over time type. The execute over time type is self-explanatory and follows the general pattern and theme of the Dropl Package.
+
+The need for the execute once type is more nuanced. By itself, it's kind of useless and a simple function call would suffice. However, when the operation must be delayed or must be executed as a part of a chain of operations using the `Sequence` operation, then this type of operation starts to make more sense.
+
+### Execute Once
+Here's an example of a simple execute once `LambdaOperation`:
+
+```csharp
+// heal the player after 5 seconds
+var healPlayerOperation = new LambdaOperation(() => {
+    playerHealth += 10;
+});
+
+// define the delay
+healPlayerOperation.Delay = 5f;
+
+// add the operation to the default executer
+healPlayerOperation.AddToDefaultExecuter();
+```
+
+### Execute Over Time
+Here's an example of a simple execution over time `LambdaOperation`:
+
+```csharp
+// heal the player over 5 seconds
+float startHealth = playerHealth;
+var healPlayerOperation = new LambdaOperation(duration: 5f, lambda: (float progress) => {
+    playerHealth = startHealth + 10 * progress;
+});
+
+// add the operation to the default executer
+healPlayerOperation.AddToDefaultExecuter();
+```
+
+Optionally, you can also specify the `Easing` method to use for the lambda operations in the constructor. If you do not specify an easing method, then the default easing method, Linear, will be used.
+
+```csharp
+// heal the player over 5 seconds using the EaseInCubic easing method
+float startHealth = playerHealth;
+var healPlayerOperation = new LambdaOperation(duration: 5f, easing: Easing.EaseInCubic, lambda: (float progress) => {
+    playerHealth = startHealth + 10 * progress;
+});
+
+// add the operation to the default executer
+healPlayerOperation.AddToDefaultExecuter();
+```
+
