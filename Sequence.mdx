@@ -1,0 +1,41 @@
+---
+title: Sequence
+description: This page contains information on the Sequence Operation
+---
+
+The `Sequence` operation is a core `Operation` part of the Dropl package that allows the developers to string together multiple `Operation`s in a sequence. This is useful for creating a series of `Operation`s that need to be executed in a specific order.
+
+## Usage
+To create a new chain of `Operation`s, simply create a new `Sequence` object and start adding `Operation`s to it using the `Add` function. Once all of the `Operation`s have been added, the `Sequence` can be executed by adding it an `Executer` or by calling the `AddToDefaultExecuter` function.
+
+```csharp
+// Create a new Sequence
+Sequence sequence = new Sequence();
+
+// add Operations to the Sequence
+sequence.Add(exampleOperation1);
+sequence.Add(exampleOperation2);
+sequence.Add(exampleOperation3);
+
+// Add the Sequence to the default Executer
+sequence.AddToDefaultExecuter();
+```
+
+When removing `Operation`s from an `Executer`, the base `Remove` function will not remove the `Operation`s nested inside of the `Sequence`. To remove the `Operation`s from deep inside of the `Sequence`, use the `RemoveAll` function.
+
+# API Reference
+## Methods
+### `public void Add(Operation operation)`
+Adds the given `Operation` to the `Sequence` at the end of the list so that it'll be executed later when all other `Operation`s in the queue have been dispersed.
+
+### `public void Remove(Operation operation)`
+Removes the given `Operation` from the `Sequence` if it exists. This function doesn't work recursively and if the `Operation` is nested inside of another `Sequence`, it won't be removed.
+
+### `public void RemoveAll(Operation operation)`]
+Removes all instances of the given `Operation` from the `Sequence`, including any instances that are nested inside of the child `Sequence`s.
+
+### `public void Remove(Filter filter)`
+Removes all `Operation`s from the `Sequence` that match the given `Filter`. This function doesn't work recursively and if the `Filter` matches an `Operation` that is nested inside of another `Sequence`, it won't be removed.
+
+### `public void RemoveAll(Filter filter)`
+Removes all `Operation`s from the `Sequence` that match the given `Filter`, including any instances that are nested inside of the child `Sequence`s.
