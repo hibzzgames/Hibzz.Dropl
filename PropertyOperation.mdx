@@ -1,0 +1,61 @@
+---
+title: Property Operation
+description: This page contains details on how to use the Property Operation
+---
+
+The `PropertyOperation` is one of the core operations part of the Dropl Package and is used to change the value of a property over time. It's slightly more complex to define than the other operations, but it's one of the more powerful operations that can greatly reduce the amount of code you need to write.
+
+## Usage
+This entire operation could have been much simpler if C# supported the concept of a reference in a safe context. Unfortunately, C# does not support this, so we have to use a workaround. 
+
+For this operation to work, the developer needs to define a variety of properties that tell the system how to handle the property. The following are the required definitions:
+- The type of the property, T
+- A lambda function that gets the current value of the property
+- A lambda function that sets the current value of the property
+- A lambda function that defines how a value of type T should interpolate between two values
+- The final expected value of the property
+
+The following is an example of how to define a property operation:
+```csharp
+
+// An example where we change the volume of an audio source to 0 over 1 second
+var audioSource = GetComponent<AudioSource>();
+
+var volumeOperation = new PropertyOperation<float>(
+    getter: () => audioSource.volume,
+    setter: (value) => audioSource.volume = value,
+    interpolator: (from, to, t) => Mathf.Lerp(from, to, t),
+    expectedValue: 0f,
+    duration: 1f,
+    easing: Interpolations.LINEAR,
+    target: audioSource // optional, helps with filtering
+);
+
+// add to an executer to start the operation
+volumeOperation.AddToDefaultExecuter();
+```
+
+It might seem like a lot of work to define a property operation, and if it's a one-off operation, it might be. It could be simpler to use the `LambdaOperation` in that case. But when creating custom `Operation`s that just needs to change a property, it's much simpler to use the `PropertyOperation` as a lot of the backend work is already done for you.
+
+```csharp
+// An example where we create a volume operation that changes the volume of an audio source
+public class VolumeOperation : PropertyOperation<float>
+{
+    public VolumeOperation(AudioSource audioSource, float targetVolume, float duration, Easing easing = Interpolations.LINEAR) : base(
+        getter: () => audioSource.volume,
+        setter: (value) => audioSource.volume = value,
+        interpolator: (from, to, t) => Mathf.Lerp(from, to, t),
+        expectedValue: targetVolume,
+        duration: duration,
+        easing: easing,
+        target: audioSource )
+    { }
+}
+
+// usage
+var audioSource = GetComponent<AudioSource>();
+var volumeOperation = new VolumeOperation(audioSource, targetVolume: 0f, duration: 1f);
+volumeOperation.AddToDefaultExecuter();
+```
+
+It's much simpler! The `PropertyOperation` is a great way to reduce the amount of code you need to write when creating custom operations. Many of our example built-in operations use the `PropertyOperation` to heavily simplify the code and reduce the amount of repetitive and boilerplate code.
