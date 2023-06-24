@@ -1,14 +1,14 @@
 {
-  "name": "com.hibzz.drop",
-  "version": "0.0.1",
-  "displayName": "hibzz.drop",
+  "name": "com.hibzz.dropl",
+  "version": "0.3.1",
+  "displayName": "hibzz.dropl",
   "description": "A library used to exeute instructions over a period of time",
   "author": {
     "name": "Hibzz Games",
     "email": "support@hibzz.games",
     "url": "https://hibzz.games/"
   },
-  "documentationUrl": "https://github.com/Hibzz-Games/Hibzz.DROP/blob/main/README.md",
-  "changelogUrl": "https://github.com/Hibzz-Games/Hibzz.DROP/commits/",
-  "licensesUrl": "https://github.com/Hibzz-Games/Hibzz.DROP/blob/main/LICENSE.md"
+  "documentationUrl": "https://github.com/Hibzz-Games/Hibzz.Dropl/blob/main/README.md",
+  "changelogUrl": "https://github.com/Hibzz-Games/Hibzz.Dropl/commits/",
+  "licensesUrl": "https://github.com/Hibzz-Games/Hibzz.Dropl/blob/main/LICENSE.md"
 }
