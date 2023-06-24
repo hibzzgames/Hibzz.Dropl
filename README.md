@@ -16,6 +16,20 @@ Alternatively, you can download the latest release from the [releases page](http
 
 <br>
 
+## Key Features
+- Operations can be executed over time or at a later point in time
+- Interpolation support for common easing functions + custom animation curves
+- Sequence to string together multiple operations
+- Lambda operation to execute any instructions without creating a new class
+- Property operation to execute any property changes over time
+- Flexible and customizable rules for when an operation should be executed and expired
+- Built-in operations for common use cases
+- Delay support for any operation
+- Filter support to select operations based on a set of rules
+- Customizable executer to control how operations are executed
+
+<br>
+
 ## Usage
 The Dropl library provides game developers with a variety of tools and utilities to defer any set of operations such that it can be executed over time or at a later point in time from the time of the request. This is useful for a variety of use cases such as UI animations, game logic, and more.
 
@@ -47,6 +61,8 @@ The library additionally provides a variety of core operations that can be used 
 - **PropertyOperation** - Execute any property changes over a period of time
 
 That's it! We just scratched the surface of what the library can do. For more information, check out the [documentation](https://docs.hibzz.games/dropl/getting-started/)
+
+<br>
 
 ## Have a question or want to contribute?
 If you have any questions or want to contribute, feel free to join the [Discord server](https://discord.gg/YXdJ8cZngB) or [Twitter](https://twitter.com/hibzzgames). I'm always looking for feedback and ways to improve this tool. Thanks!
