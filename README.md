@@ -12,6 +12,11 @@ This package can be installed in the Unity Package Manager using the following g
 https://github.com/hibzzgames/Hibzz.Dropl.git
 ```
 
+This package additionally requires the [Hibzz.Singletons](https://github.com/hibzzgames/Hibzz.Singletons) package to be installed in the project as a dependency. Hopefully, 2023 is the year Unity finally adds support for git dependencies in the package manager. Until then, this package can be installed in the Unity Package Manager using the following git URL.
+```
+https://github.com/hibzzgames/Hibzz.Singletons.git
+```
+
 Alternatively, you can download the latest release from the [releases page](https://github.com/hibzzgames/Hibzz.Dropl/releases) and manually import the package into your project.
 
 <br>
@@ -54,6 +59,75 @@ Executer.DefaultExecuter.Add(moveOperation);
 // or alternatively, use the helper method AddToDefaultExecuter
 moveOperation.AddToDefaultExecuter();
 ```
+
+<br>
+
+The `MoveOperation` is one of the few built-in operations provided by the library for common use cases and reference. However, the real power of the library comes from the ability to create custom operations. Let's take a look at how we can create a custom operation.
+
+```csharp
+using Hibzz.Dropl;
+
+// create a custom operation that handles the highlight of a given object and display the text of the object
+public class HighlightOperation : Operation
+{
+    // set to this color to highlight
+    Color targetColor;
+
+    // store the current color (useful for interpolating from the current color to the target color)
+    Color currentColor;
+
+    // stores the target UI text of the object
+    String targetText;
+
+    // stores the current UI text of the object
+    String currentText;
+
+
+    public HighlightOperation (Highlightable highlightable, Color highlightColor, float duration) : base(target: highlightable)
+    {
+        ExpirationTime = duration;
+        Easing = INTERPOLATIONS.IN_SINE;
+        color = targetColor;
+    }
+
+    protected override void OnOperationStart()
+    {
+        currentColor = ((Highlightable)target).Color;
+        currentText =  ((Highlightable)target).Text;
+        targetText =   ((Highlightable)target).gameObject.name;
+    }
+
+    private string FancyStringInterpolation(float progress) 
+    {
+        // imagine some fancy string interpolation here from currentText to targetText using the progress
+        string result = ... ;
+        return result;
+    }
+
+    protected override void OnOperationTick(float progress) 
+    {
+        // interpolate the color from the current color to the target color
+        ((Highlightable)target).Color = Color.Lerp(currentColor, targetColor, progress);
+
+        // interpolate the text from the current text to the target text
+        ((Highlightable)target).Text = FancyStringInterpolation(progress);
+    }
+
+    protected override void OnOperationEnd()
+    {
+        // set the final color and text, and mark the object as highlighted
+        ((Highlightable)target).Color = targetColor;
+        ((Highlightable)target).Text = targetText;
+        ((Highlightable)target).isHighlighted = true;
+    }
+}
+
+// now we can use this operation in the same way as the built-in operations
+var highlightOperation = new HighlightOperation(highlightable, highlightColor: Color.red, duration: 5f);
+highlightOperation.AddToDefaultExecuter();
+```
+
+<br>
 
 The library additionally provides a variety of core operations that can be used to create more complex operations. 
 - **Sequence** - Executes a set of operations in a sequence
