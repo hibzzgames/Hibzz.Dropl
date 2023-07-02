@@ -5,6 +5,8 @@
 
 The Deferred Runtime Operation Library (Dropl) provides users with a variety of tools and utilities to defer any operations such that they can be executed over time or at a later point in time.
 
+<br>
+
 ## Installation
 **Via Github**
 This package can be installed in the Unity Package Manager using the following git URL.
@@ -22,6 +24,8 @@ To automatically install all the required dependencies, please use the [Hibzz.De
 ```
 https://github.com/hibzzgames/Hibzz.DependencyResolver.git
 ```
+
+<br>
 
 If you wish to manually install the dependencies, here is a list of all the required dependencies.
 - [Hibzz.Singleton](https://github.com/hibzzgames/Hibzz.Singletons)
@@ -49,6 +53,8 @@ Detailed documentation can be found on [docs.hibzz.games](https://docs.hibzz.gam
 
 There are two main components to the library, the `Operation`, and the `Executer`. The abstract `Operation` class is used to define how a set of instructions need to be executed over time and the `Executer` is used to manage the execution of the defined operations.
 
+<br>
+
 For example, let's take this simple operation that moves a `Transform` from its current position to a target position over some time.
 
 ```csharp
@@ -56,6 +62,8 @@ For example, let's take this simple operation that moves a `Transform` from its 
 // additionally, dropl provides a variety of other interpolation methods to work with
 var moveOperation = new MoveOperation(transform, expectedPosition: new vector3(0, 5, 0), duration: 5f, easing: Interpolations.LINEAR);
 ```
+
+<br>
 
 The next step would be to add this operation to an `Executer`. The users can either create custom `Executer`s or use the default `Executer` provided by the library.
 
