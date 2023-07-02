@@ -12,12 +12,19 @@ This package can be installed in the Unity Package Manager using the following g
 https://github.com/hibzzgames/Hibzz.Dropl.git
 ```
 
-This package additionally requires the [Hibzz.Singletons](https://github.com/hibzzgames/Hibzz.Singletons) package to be installed in the project as a dependency. Hopefully, 2023 is the year Unity finally adds support for git dependencies in the package manager. Until then, this package can be installed in the Unity Package Manager using the following git URL.
+Alternatively, you can download the latest release from the [releases page](https://github.com/hibzzgames/Hibzz.Dropl/releases) and manually import the package into your project.
+
+<br>
+
+## Required Dependencies
+To automatically install all the required dependencies, please use the [Hibzz.DependencyResolver](https://github.com/hibzzgames/Hibzz.DependencyResolver) package. This can be done by adding the following git URL to the Unity Package Manager.
+
 ```
-https://github.com/hibzzgames/Hibzz.Singletons.git
+https://github.com/hibzzgames/Hibzz.DependencyResolver.git
 ```
 
-Alternatively, you can download the latest release from the [releases page](https://github.com/hibzzgames/Hibzz.Dropl/releases) and manually import the package into your project.
+If you wish to manually install the dependencies, here is a list of all the required dependencies.
+- [Hibzz.Singleton](https://github.com/hibzzgames/Hibzz.Singletons)
 
 <br>
 
